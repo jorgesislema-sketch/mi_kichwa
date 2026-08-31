@@ -31,7 +31,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // 3. Interacción básica: Lista de datos dinámicos
+  // Interacción básica: Lista de datos dinámicos
   final List<Map<String, String>> _words = [
     {
       'kichwa': 'Alli llakta',
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 2. Pantalla principal: Uso de Card, Container y gradientes
+            // Pantalla principal: Uso de Card, Container y gradientes
             Card(
               elevation: 6,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
