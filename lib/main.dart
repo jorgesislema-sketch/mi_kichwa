@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Paquete externo instalado
 
-// KichwaApp inicio
+import 'screens/home/home_screen.dart';
+import 'screens/grammar/grammar_intro_screen.dart';
+import 'screens/vocabulary/vocabulary_screen.dart';
+import 'screens/selection/word_selection_screen.dart';
+import 'screens/matching/word_match_game_screen.dart';
+import 'screens/stories/stories_screen.dart';
+import 'screens/audios/audio_lessons_screen.dart';
+
 void main() {
   runApp(const KichwaApp());
 }
@@ -18,216 +24,16 @@ class KichwaApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  // Interacción básica: Lista de datos dinámicos
-  final List<Map<String, String>> _words = [
-    {
-      'kichwa': 'Alli llakta',
-      'espanol': 'Pueblo bueno / Bienvenido',
-      'ejemplo': '¡Alli llakta shamushca kapaychi!',
-    },
-    {
-      'kichwa': 'Alli punlla',
-      'espanol': 'Buenos días',
-      'ejemplo': 'Alli punlla mashikuna (Buenos días amigos).',
-    },
-    {
-      'kichwa': 'Sumak',
-      'espanol': 'Hermoso / Lindo',
-      'ejemplo': 'Sumak kawsay (Buen vivir).',
-    },
-    {
-      'kichwa': 'Añay',
-      'espanol': 'Gracias',
-      'ejemplo': 'Añay yachachik (Gracias profesor).',
-    },
-  ];
-
-  int _currentIndex = 0;
-
-  // Acción del botón
-  void _nextWord() {
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % _words.length;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.amber[50], // Fondo personalizado cálido
-      appBar: AppBar(
-        title: Text(
-          'Yachakushun Kichwa',
-          style: GoogleFonts.philosopher(
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.teal[700],
-        elevation: 4,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Pantalla principal: Uso de Card, Container y gradientes
-            Card(
-              elevation: 6,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(
-                    colors: [Colors.teal[400]!, Colors.teal[600]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    const Icon(
-                      Icons.menu_book_rounded,
-                      size: 60,
-                      color: Colors.white,
-                    ), // Ícono interactivo
-                    const SizedBox(height: 15),
-                    Text(
-                      'Palabra del Día',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 16,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      _words[_currentIndex]['kichwa']!,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const Divider(color: Colors.white30, height: 30),
-                    Text(
-                      'Significado:',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          color: Colors.white60,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      _words[_currentIndex]['espanol']!,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                          color: Colors.yellow[200],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Uso de Row estructurado
-            Card(
-              elevation: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.lightbulb_outline,
-                      color: Colors.amber[700],
-                      size: 30,
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Ejemplo de uso:',
-                            style: GoogleFonts.lato(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            _words[_currentIndex]['ejemplo']!,
-                            style: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                color: Colors.grey[700],
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            // Al menos un botón interactivo
-            ElevatedButton.icon(
-              onPressed: _nextWord,
-              icon: const Icon(Icons.navigate_next, color: Colors.white),
-              label: Text(
-                'Siguiente Palabra',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange[700],
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                elevation: 4,
-              ),
-            ),
-          ],
-        ),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+        '/grammar_intro': (context) => const GrammarIntroScreen(),
+        '/vocabulary': (context) => const VocabularyScreen(),
+        '/selection': (context) => const WordSelectionScreen(),
+        '/match_game': (context) => const WordMatchGameScreen(),
+        '/stories': (context) => const StoriesScreen(),
+        '/audios': (context) => const AudioLessonsScreen(),
+      },
     );
   }
 }
