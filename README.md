@@ -118,8 +118,6 @@ Para cumplir con las buenas prácticas de diseño atómico y reciclaje de códig
 
 ## Autor
 *   **Estudiante:** Jorge Ivan Sislema Quinaluisa
-*   **Asignatura:** Desarrollo de Aplicaciones Móviles
-
 -----------------------------------------------------------------------
 
 # Yachakushun Kichwa - Aplicación Móvil Educativa
