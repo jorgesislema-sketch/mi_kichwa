@@ -88,7 +88,7 @@ Para cumplir con las buenas prácticas de diseño atómico y reciclaje de códig
 
 | Menú Principal (Home) | Bases y Reglas | Vocabulario Completo |
 |:---:|:---:|:---:|
-| ![Menú Principal](capturas/KICHWA_APP_EMULADOR_CHROME_WEB_1.png) | ![Bases Gramaticales](capturas/KICHWA_APP_EMULADOR_CHROME_WEB_3.png) | ![Vocabulario](https://placehold.co) |
+| ![Menú Principal](capturas/KICHWA_APP_EMULADOR_CHROME_WEB_1.png) | ![Bases Gramaticales](capturas/KICHWA_APP_EMULADOR_CHROME_WEB_3.png) | ![Vocabulario](capturas/KICHWA_APP_EMULADOR_CHROME_WEB_4.png) |
 
 ### Evidencia de Reactividad (Acción con Provider)
 
