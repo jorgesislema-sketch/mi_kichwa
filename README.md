@@ -94,7 +94,7 @@ Para cumplir con las buenas prácticas de diseño atómico y reciclaje de códig
 
 | 1. Palabra normal en lista | 2. Se marca como Favorito | 3. Reflejado instantáneamente |
 |:---:|:---:|:---:|
-| ![Paso 1](https://placehold.co) | ![Paso 2](capturas/CON_MARCA.png) | ![Paso 3](https://placehold.co) |
+| ![Paso 1](capturas/SIN_MARCA.png) | ![Paso 2](capturas/CON_MARCA.png) | ![Paso 3](https://placehold.co) |
 
 
 ---
