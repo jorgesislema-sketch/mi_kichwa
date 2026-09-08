@@ -1,3 +1,127 @@
+# Yachakushun Kichwa (Versión Provider)
+
+Aplicación móvil educativa e interactiva diseñada para la enseñanza y preservación del idioma Kichwa, implementando una arquitectura desacoplada basada en la gestión de estado global de Flutter.
+
+---
+
+## Actividad Integradora 3: Flutter con Provider y componentes reutilizables.
+
+## Objetivo del Proyecto
+Desarrollar una aplicación robusta y escalable aplicando el patrón de manejo de estado **Provider**, optimizando el rendimiento de renderizado a través de componentes y widgets reutilizables, y separando de forma estricta las responsabilidades del software en archivos independientes y subcarpetas funcionales.
+
+## Descripción de la Aplicación
+"Yachakushun Kichwa" es una plataforma móvil de inmersión lingüística. Guía al estudiante a través de un flujo pedagógico estructurado: bases gramaticales/fonéticas, exploración de vocabulario clasificado, juegos interactivos multimedia, audios y cuentos en PDF. El sistema utiliza reactividad global para que el progreso, marcadores y configuraciones del alumno estén disponibles en tiempo real en todas las capas de la interfaz.
+
+---
+
+## Funcionalidades Principales
+*   **Introducción Teórica Interactiva:** Vista modular por pestañas para comprender la regla de las 3 vocales y la estructura sintáctica Sujeto-Objeto-Verbo (SOV).
+*   **Gestión Centralizada de Vocabulario:** Despliegue dinámico de términos mediante colecciones optimizadas en memoria.
+*   **Módulo de Favoritos en Tiempo Real:** Capacidad de guardar o quitar marcadores de palabras desde cualquier pantalla y ver los cambios reflejados de forma inmediata.
+*   **Retos de Selección y Traducción:** Dinámica interactiva de aprendizaje activo con mutación de datos sincrónica.
+*   **Asociación Visual y Multimedia:** Caja de herramientas multimedia que consume imágenes optimizadas y archivos de audio remotos.
+*   **Visor de Literatura Andina:** Lector integrado de cuentos tradicionales en formato PDF que opera en caché sin sobrecargar el almacenamiento físico del dispositivo.
+
+---
+
+## Tecnologías y Paquetes Utilizados
+*   **Flutter SDK & Dart Language:** Framework base para el desarrollo nativo multiplataforma.
+*   **`provider` (v6.1.2):** Paquete oficial para la inyección de dependencias y gestión de estado reactivo mediante `ChangeNotifier`.
+*   **`google_fonts` (v6.2.0):** Motor de renderizado tipográfico para las fuentes *Poppins, Lato y Philosopher*.
+*   **`cached_network_image` (v3.4.1):** Descarga, renderizado y persistencia temporal en caché de recursos gráficos en la nube.
+*   **`flutter_cached_pdfview` (v0.4.3):** Lector nativo asíncrono para archivos PDF en línea.
+*   **`audioplayers` (v6.0.0):** Controlador de flujos multimedia de sonido sincronizados con elementos de control interactivos.
+
+---
+
+## Estructura de Carpetas del Proyecto
+El diseño del software sigue un patrón de ordenamiento de responsabilidades limpias (Clean Layout), evitando concentrar la lógica en el archivo maestro:
+
+```text
+lib/
+│── main.dart                  # Punto de entrada de la app e inyección del Provider raíz
+├── models/
+│   └── word_model.dart        # Clase o modelo de datos principal
+├── providers/
+│   └── kichwa_provider.dart   # Lógica de negocio (ChangeNotifier y notifyListeners)
+├── widgets/
+│   ├── custom_app_bar.dart    # Componente reutilizable: Barra de navegación centralizada
+│   └── word_card_widget.dart  # Componente reutilizable: Tarjeta interactiva de vocabulario
+└── screens/
+    ├── home/
+    │   └── home_screen.dart   # Menú principal y distribución por GridView
+    ├── grammar/
+    │   └── grammar_intro_screen.dart # Pestañas informativas de fonética y gramática
+    ├── vocabulary/
+    │   └── vocabulary_screen.dart    # Lista global consumida mediante Consumer
+    ├── selection/
+    │   └── word_selection_screen.dart# Juego de traducción reactiva
+    ├── matching/
+    │   └── word_match_game_screen.dart# Asociación de tarjetas visuales
+    └── favorites/
+        └── favorites_screen.dart     # Panel exclusivo de marcadores guardados
+```
+
+---
+
+## Explicación del Provider Implementado
+La aplicación implementa el estado global a través de la clase `KichwaProvider`, la cual extiende de `ChangeNotifier`. 
+
+1.  **Inyección:** En el archivo `main.dart`, se envuelve toda la aplicación dentro de un `ChangeNotifierProvider` para que el estado esté disponible en cualquier nodo del árbol de widgets.
+2.  **Notificación:** Cuando el usuario presiona el botón de marcador en cualquier tarjeta, se ejecuta el método `toggleFavorite(id)`. Este altera la propiedad booleana `isFavorite` del modelo y ejecuta **`notifyListeners()`**.
+3.  **Consumo:** Las pantallas como `VocabularyScreen` y `FavoritesScreen` utilizan componentes **`Consumer`**. Al escuchar la notificación, estos componentes se redibujan de manera quirúrgica y automática, garantizando que si una palabra es marcada como favorita, aparezca instantáneamente en la lista de favoritos sin necesidad de recargar la pantalla.
+
+---
+
+## Descripción de los Widgets Reutilizables Creados
+Para cumplir con las buenas prácticas de diseño atómico y reciclaje de código, se crearon dos componentes independientes:
+
+1.  **`CustomAppBar` (`custom_app_bar.dart`):** Abstracción del `AppBar` nativo que hereda `PreferredSizeWidget`. Centraliza el estilo tipográfico de la aplicación, el color corporativo institucional Teal y permite inyectar componentes inferiores opcionales como barras de pestañas (`TabBar`).
+2.  **`WordCardWidget` (`word_card_widget.dart`):** Tarjeta contenedora estandarizada encargada de dar formato estructural a los términos en Kichwa, traducciones en español y ejemplos de uso. Contiene de forma aislada el botón de acción reactivo conectado al `Provider`, permitiendo su reutilización exacta tanto en el visor de vocabulario general como en el panel de favoritos.
+
+---
+
+## Capturas de Pantalla y Evidencia de Provider
+
+
+### Pantallas Principales de la Aplicación
+
+| Menú Principal (Home) | Bases y Reglas | Vocabulario Completo |
+|:---:|:---:|:---:|
+| ![Menú Principal](C:/Users/ADMIN-PC/Desktop/ECOTEC - SISTEMAS/SEMESTRE_2/TAREA_PROGRAMACION_IV/mi_kichwa/capturas/KICHWA_APP_EMULADOR_CHROME_WEB_1.png) | ![Bases Gramaticales](C:/Users/ADMIN-PC/Desktop/ECOTEC - SISTEMAS/SEMESTRE_2/TAREA_PROGRAMACION_IV/mi_kichwa/capturas/KICHWA_APP_EMULADOR_CHROME_WEB_3.png) | ![Vocabulario](https://placehold.co) |
+
+### Evidencia de Reactividad (Acción con Provider)
+
+| 1. Palabra normal en lista | 2. Se marca como Favorito | 3. Reflejado instantáneamente |
+|:---:|:---:|:---:|
+| ![Paso 1](https://placehold.co) | ![Paso 2](https://placehold.co) | ![Paso 3](https://placehold.co) |
+
+
+---
+
+## Instrucciones Básicas para Ejecutar el Proyecto
+1. Clonar este repositorio en tu máquina local:
+    ```bash
+    git clone https://github.com
+    ```
+2.  Asegurar una conexión activa a internet en el equipo o emulador para la descarga de fuentes y multimedia.
+3.  Instalar y actualizar los paquetes de dependencias registrados en el archivo de configuración:
+    ```bash
+    flutter pub get
+    ```
+4.  Ejecutar el proyecto en un emulador Android o dispositivo físico en modo de depuración:
+    ```bash
+    flutter run
+    ```
+
+---
+
+## Autor
+*   **Estudiante:** Jorge Ivan Sislema Quinaluisa
+*   **Asignatura:** Desarrollo de Aplicaciones Móviles
+
+-----------------------------------------------------------------------
+
 # Yachakushun Kichwa - Aplicación Móvil Educativa
 
 Módulo interactivo y pedagógico diseñado para la enseñanza, difusión y preservación del idioma Kichwa mediante entornos móviles dinámicos.
