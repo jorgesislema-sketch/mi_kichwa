@@ -1,85 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WordSelectionScreen extends StatefulWidget {
+import '../../providers/kichwa_provider.dart';
+import '../../widgets/custom_app_bar.dart';
+
+class WordSelectionScreen extends StatelessWidget {
   const WordSelectionScreen({super.key});
-
-  @override
-  State<WordSelectionScreen> createState() => _WordSelectionScreenState();
-}
-
-class _WordSelectionScreenState extends State<WordSelectionScreen> {
-  final List<Map<String, String>> _options = [
-    {'kichwa': 'Alli punlla', 'espanol': 'Buenos días'},
-    {'kichwa': 'Añay', 'espanol': 'Gracias'},
-    {'kichwa': 'Chishi', 'espanol': 'Tarde'},
-    {'kichwa': 'Sumak kawsay', 'espanol': 'Buen vivir'},
-  ];
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber[50],
-      appBar: AppBar(
-        title: const Text(
-          'Seleccionar Palabra',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.teal[700],
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              '¿Cómo se dice "${_options[_selectedIndex]['espanol']}" en Kichwa?',
-              style: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-            Card(
-              color: Colors.teal[700],
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Text(
-                  _options[_selectedIndex]['kichwa']!,
+      backgroundColor: Colors.amber,
+      appBar: const CustomAppBar(title: 'Selector Reactivo'),
+      body: Consumer<KichwaProvider>(
+        builder: (context, provider, child) {
+          final currentWord = provider.currentSelectionWord;
+          return Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  '¿Cómo se traduce "${currentWord.espanol}"?',
                   style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    color: Colors.white,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _selectedIndex = (_selectedIndex + 1) % _options.length;
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange[700],
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  'Cambiar Palabra',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                const SizedBox(height: 20),
+                Card(
+                  color: Colors.teal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Text(
+                      currentWord.kichwa,
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => provider.nextSelectionWord(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                  ),
+                  child: const Text(
+                    'Siguiente Palabra',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

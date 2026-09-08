@@ -5,28 +5,28 @@ import '../../providers/kichwa_provider.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/word_card_widget.dart';
 
-class VocabularyScreen extends StatelessWidget {
-  const VocabularyScreen({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amber,
-      appBar: const CustomAppBar(title: 'Vocabulario Global'),
+      appBar: const CustomAppBar(title: 'Mis Favoritos'),
       body: Consumer<KichwaProvider>(
         builder: (context, provider, child) {
+          final favs = provider.favoriteWords;
+          if (favs.isEmpty) {
+            return const Center(
+              child: Text('No tienes marcadores guardados todavía.'),
+            );
+          }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: provider.words.length,
-            itemBuilder: (context, index) =>
-                WordCardWidget(word: provider.words[index]),
+            itemCount: favs.length,
+            itemBuilder: (context, index) => WordCardWidget(word: favs[index]),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
-        onPressed: () => Navigator.pushNamed(context, '/favorites'),
-        child: const Icon(Icons.bookmarks, color: Colors.white),
       ),
     );
   }

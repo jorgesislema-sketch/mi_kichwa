@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../providers/kichwa_provider.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class WordMatchGameScreen extends StatelessWidget {
   const WordMatchGameScreen({super.key});
@@ -8,67 +12,61 @@ class WordMatchGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber[50],
-      appBar: AppBar(
-        title: const Text(
-          'Relacionar con Fotos',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.teal[700],
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(
-              'Visualiza el objeto y aprende su escritura:',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Card(
-              elevation: 4,
+      backgroundColor: Colors.amber,
+      appBar: const CustomAppBar(title: 'Asociación Visual'),
+      body: Consumer<KichwaProvider>(
+        builder: (context, provider, child) {
+          // Tomamos la palabra que tiene imagen en nuestro proveedor
+          final targetWord = provider.words.firstWhere(
+            (w) => w.imageUrl != null,
+          );
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     CachedNetworkImage(
-                      imageUrl: 'https://unsplash.com',
-                      placeholder: (context, url) => const SizedBox(
-                        height: 200,
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error, size: 50),
+                      imageUrl: targetWord.imageUrl!,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
                       height: 200,
-                      width: double.infinity,
                       fit: BoxFit.cover,
                     ),
                     const Divider(height: 30),
                     Text(
-                      'Sacha',
+                      targetWord.kichwa,
                       style: GoogleFonts.poppins(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal[700],
+                        color: Colors.teal,
                       ),
                     ),
                     Text(
-                      '(Naturaleza / Selva)',
-                      style: GoogleFonts.lato(
+                      '(${targetWord.espanol})',
+                      style: const TextStyle(
                         fontSize: 16,
                         fontStyle: FontStyle.italic,
                       ),
+                    ),
+                    const SizedBox(height: 10),
+                    IconButton(
+                      icon: Icon(
+                        targetWord.isFavorite
+                            ? Icons.bookmark
+                            : Icons.bookmark_border,
+                      ),
+                      color: Colors.orange,
+                      onPressed: () => provider.toggleFavorite(targetWord.id),
                     ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
